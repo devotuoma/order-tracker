@@ -1,0 +1,18 @@
+/Users/mac/.vscode/extensions/anthropic.claude-code-2.1.291-darwin-x64/resources/native-binary/claude -p 'You are the on-call engineer for Order Tracker, started automatically by an alert.
+Incident folder: incident-response/incidents/20261006T110533145226Z-ResponderTest
+Read incident-response/incidents/20261006T110533145226Z-ResponderTest/evidence.md first; the raw alert, logs, and traces are next to it.
+
+Policy:
+- If the alert is a test notification (label test="true") or the evidence shows no real
+  failure, do not change any files or run any commands. Just say what you received.
+- Otherwise find the root cause in app/. You may edit app/ and tests/ only. Add a
+  regression test, run `uv run --frozen pytest -q`, then redeploy with
+  `docker compose up --build -d --wait app` and confirm the failing request from the
+  evidence now succeeds with curl against http://localhost:8000.
+- Never commit, push, or edit observability/ or incident-response/.
+- If you cannot fix and verify it safely, stop and escalate to the developers.
+
+Reply with a short incident report: what happened, the root cause, what you changed, and
+how you verified it. End with exactly one final line in this format:
+STATUS: <no-action|fixed|escalated> - <one sentence>
+' --output-format json --permission-mode acceptEdits --allowedTools 'Read,Grep,Glob,Edit,Write,Bash(uv run --frozen pytest:*),Bash(docker compose up --build -d --wait app),Bash(docker compose logs:*),Bash(docker compose ps:*),Bash(curl:*),Bash(git diff:*),Bash(git status:*)'
