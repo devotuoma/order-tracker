@@ -8,6 +8,8 @@ services:
       - "127.0.0.1:${ORDER_TRACKER_PORT:-8000}:8000"
     environment:
       ORDER_DB_PATH: /data/orders.db
+      OTEL_SERVICE_NAME: order-tracker
+      OTEL_CONSOLE_EXPORT: ${OTEL_CONSOLE_EXPORT:-true}
     volumes:
       - orders:/data
     restart: unless-stopped
